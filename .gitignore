@@ -3,3 +3,5 @@ issueENV/
 data/
 config.toml
 *.db
+__pycache__/
+*.pyc
