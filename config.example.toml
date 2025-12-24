@@ -1,0 +1,8 @@
+[github]
+token=""
+
+[database]
+path=""
+
+[repos]
+repositories=[""]
