@@ -58,6 +58,51 @@ def init_db(config):
     conn.commit()
     conn.close()
 
-    print("Database initialized successfully.")
+def insert_repo(conn,owner,name):
+    cursor=conn.cursor()
 
+    # Insert repo 
+    cursor.execute('''
+        INSERT OR IGNORE INTO repos (owner,name)
+        VAlUES (?,?)
+    ''',(owner,name))
+    # Get the repo ID
+    cursor.execute('''
+        SELECT id FROM repos WHERE owner = ? AND name = ?
+    ''',(owner,name))
 
+    repo_id= cursor.fetchone()[0]
+    conn.commit()
+    return repo_id
+
+def insert_issue(conn,repo_id,issue_data):
+    cursor=conn.cursor()
+   
+    cursor.execute('''
+        INSERT OR REPLACE INTO issues
+        (repo_id, number, title, body, state,created_at, updated_at, url, author)
+        VALUES (?,?,?,?,?,?,?,?,?)
+    ''',(
+        repo_id,
+        issue_data['number'],
+        issue_data['title'],
+        issue_data['body'],
+        issue_data['state'],
+        issue_data['created_at'],
+        issue_data['updated_at'],
+        issue_data['url'],
+        issue_data['author']
+    ))
+def insert_labels(conn,issue_id,labels):
+    cursor=conn.cursor()\
+    # Delete old lables 
+    cursor.execute('DELETE FORM labels WHERE issue_id = ?',(issue_id,))
+    # Insert new labels
+    for label in labels:
+        cursor.execute(
+            '''
+        INSERT INTO labels (issue_id, name, color)
+        VALUES (?,?,?)
+        ''',(issue_id, label['name'],label.get('color','')))
+
+    conn.commit()
