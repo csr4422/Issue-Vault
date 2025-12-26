@@ -74,11 +74,11 @@ def get_db_path(config):
 
 
 # Example usage
-if __name__ == "__main__":
-    try:
-        config = load_config()
-        print("Config loaded successfully!")
-        print(f"Database: {get_db_path(config)}")
-        print(f"Repositories: {get_repos(config)}")
-    except Exception as e:
-        print(f"Error: {e}")
+# if __name__ == "__main__":
+#     try:
+#         config = load_config()
+#         print("Config loaded successfully!")
+#         print(f"Database: {get_db_path(config)}")
+#         print(f"Repositories: {get_repos(config)}")
+#     except Exception as e:
+#         print(f"Error: {e}")
