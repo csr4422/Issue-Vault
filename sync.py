@@ -102,3 +102,6 @@ def sync_all():
             print(f"Error syncing {owner}/{repo_name}: {e}")
     
     print("\nSync complete!")
+
+    if __name__ == "__main__":
+        sync_all()
