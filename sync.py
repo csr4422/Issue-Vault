@@ -38,3 +38,52 @@ def fetch_issues(owner, repo, token):
         print(f"   Fetched page {page-1} ({len(issues)} issues)")
     
     return all_issues
+
+def sync_repo(config, owner, repo_name, token):
+
+    print(f"\nSyncing {owner}/{repo_name}...")
+    
+    # Fetch issues from GitHub
+    issues = fetch_issues(owner, repo_name, token)
+    
+    if not issues:
+        print("   No issues found")
+        return
+    
+    print(f"Found {len(issues)} issues")
+    
+    # Connect to database
+    conn = get_connection(config)
+    repo_id = insert_repo(conn, owner, repo_name)
+    
+    # Insert each issue
+    for issue in issues:
+        if 'pull_request' in issue:
+            continue
+        
+        issue_data = {
+            'number': issue['number'],
+            'title': issue['title'],
+            'body': issue.get('body', ''),  
+            'state': issue['state'],
+            'created_at': issue['created_at'],
+            'updated_at': issue['updated_at'],
+            'url': issue['html_url'],
+            'author': issue['user']['login']
+        }
+        
+        # Insert issue
+        issue_id = insert_issue(conn, repo_id, issue_data)
+        
+        # Insert labels
+        labels = [
+            {'name': label['name'], 'color': label['color']}
+            for label in issue.get('labels', [])
+        ]
+        
+        if labels:
+            insert_labels(conn, issue_id, labels)
+    
+    conn.close()
+    print(f"Saved {len(issues)} issues to database")
+
