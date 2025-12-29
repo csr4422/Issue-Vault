@@ -1,6 +1,6 @@
 import requests
 from config import load_config, get_repos, get_github_token
-from db import get_connection, insert_repo, insert_issue, insert_labels 
+from db import get_connection, insert_repo, insert_issue, insert_labels, init_db
 def fetch_issues(owner, repo, token):
 
     url = f"https://api.github.com/repos/{owner}/{repo}/issues"
@@ -87,3 +87,18 @@ def sync_repo(config, owner, repo_name, token):
     conn.close()
     print(f"Saved {len(issues)} issues to database")
 
+def sync_all():
+
+    config = load_config()
+    init_db(config)
+    repos = get_repos(config)
+    token = get_github_token(config)
+    
+    # Sync each repo
+    for owner, repo_name in repos:
+        try:
+            sync_repo(config, owner, repo_name, token)
+        except Exception as e:
+            print(f"Error syncing {owner}/{repo_name}: {e}")
+    
+    print("\nSync complete!")
