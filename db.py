@@ -75,14 +75,14 @@ def insert_repo(conn,owner,name):
     conn.commit()
     return repo_id
 
-def insert_issue(conn,repo_id,issue_data):
-    cursor=conn.cursor()
+def insert_issue(conn, repo_id, issue_data):
+    cursor = conn.cursor()
    
     cursor.execute('''
         INSERT OR REPLACE INTO issues
-        (repo_id, number, title, body, state,created_at, updated_at, url, author)
+        (repo_id, number, title, body, state, created_at, updated_at, url, author)
         VALUES (?,?,?,?,?,?,?,?,?)
-    ''',(
+    ''', (
         repo_id,
         issue_data['number'],
         issue_data['title'],
@@ -93,10 +93,14 @@ def insert_issue(conn,repo_id,issue_data):
         issue_data['url'],
         issue_data['author']
     ))
+      
+    issue_id = cursor.lastrowid  
+    conn.commit()                
+    return issue_id              
 def insert_labels(conn,issue_id,labels):
     cursor=conn.cursor()\
     # Delete old lables 
-    cursor.execute('DELETE FORM labels WHERE issue_id = ?',(issue_id,))
+    cursor.execute('DELETE FROM labels WHERE issue_id = ?',(issue_id,))
     # Insert new labels
     for label in labels:
         cursor.execute(

@@ -100,8 +100,7 @@ def sync_all():
             sync_repo(config, owner, repo_name, token)
         except Exception as e:
             print(f"Error syncing {owner}/{repo_name}: {e}")
-    
-    print("\nSync complete!")
+    print("\n✅ Sync complete!")
 
-    if __name__ == "__main__":
+if __name__ == "__main__":
         sync_all()
