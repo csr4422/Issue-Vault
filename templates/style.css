@@ -1,0 +1,243 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #0d1117;
+    color: #c9d1d9;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 40px 0;
+    border-bottom: 1px solid #30363d;
+    margin-bottom: 30px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 15px 0;
+    font-size: 0.95rem;
+    color: #8b949e;
+}
+
+.stats span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Search Bar */
+.search-bar {
+    margin: 30px 0 20px;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 1rem;
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    color: #c9d1d9;
+    transition: border-color 0.2s;
+}
+
+#searchInput:focus {
+    outline: none;
+    border-color: #58a6ff;
+}
+
+#searchInput::placeholder {
+    color: #8b949e;
+}
+
+/* Filters */
+.filters {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0 30px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    background: #21262d;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    color: #c9d1d9;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.filter-btn:hover {
+    background: #30363d;
+    border-color: #58a6ff;
+}
+
+.filter-btn.active {
+    background: #58a6ff;
+    border-color: #58a6ff;
+    color: #fff;
+}
+
+/* Issue Cards */
+#issuesContainer {
+    margin-bottom: 40px;
+}
+
+.issue-card {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 15px;
+    transition: border-color 0.2s;
+}
+
+.issue-card:hover {
+    border-color: #58a6ff;
+}
+
+.repo-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #21262d;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: #8b949e;
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.issue-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.issue-number {
+    color: #8b949e;
+    font-weight: 600;
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+.issue-title {
+    flex: 1;
+    min-width: 200px;
+}
+
+.issue-title a {
+    color: #58a6ff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.issue-title a:hover {
+    text-decoration: underline;
+}
+
+.state-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.state-open {
+    background: #238636;
+    color: #fff;
+}
+
+.state-closed {
+    background: #8957e5;
+    color: #fff;
+}
+
+.issue-meta {
+    color: #8b949e;
+    font-size: 0.85rem;
+    margin: 10px 0;
+}
+
+.labels {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+.label {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* No Results */
+.no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: #8b949e;
+    font-size: 1.1rem;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    color: #8b949e;
+    border-top: 1px solid #30363d;
+    margin-top: 40px;
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .stats {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .issue-header {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .issue-title {
+        width: 100%;
+    }
+}
