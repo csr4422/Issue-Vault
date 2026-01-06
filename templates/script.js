@@ -28,11 +28,8 @@ function setupEventListeners() {
     // Filter buttons
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-            // Update active state
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
-            // Update filter
             currentFilter = btn.dataset.filter;
             renderIssues();
         });
@@ -67,6 +64,40 @@ function getFilteredIssues() {
     });
 }
 
+// Group issues by repository
+function groupIssuesByRepo(issuesList) {
+    const grouped = {};
+    
+    issuesList.forEach(issue => {
+        const repoKey = `${issue.repo_owner}/${issue.repo_name}`;
+        if (!grouped[repoKey]) {
+            grouped[repoKey] = {
+                owner: issue.repo_owner,
+                name: issue.repo_name,
+                issues: []
+            };
+        }
+        grouped[repoKey].issues.push(issue);
+    });
+    
+    return grouped;
+}
+
+// Get SVG icon for issue state
+function getIssueIcon(state) {
+    if (state === 'open') {
+        return `<svg viewBox="0 0 16 16" version="1.1" aria-hidden="true">
+            <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path>
+            <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"></path>
+        </svg>`;
+    } else {
+        return `<svg viewBox="0 0 16 16" version="1.1" aria-hidden="true">
+            <path d="M11.28 6.78a.75.75 0 0 0-1.06-1.06L7.25 8.69 5.78 7.22a.75.75 0 0 0-1.06 1.06l2 2a.75.75 0 0 0 1.06 0l3.5-3.5Z"></path>
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0Zm-1.5 0a6.5 6.5 0 1 0-13 0 6.5 6.5 0 0 0 13 0Z"></path>
+        </svg>`;
+    }
+}
+
 // Render issues to DOM
 function renderIssues() {
     const container = document.getElementById('issuesContainer');
@@ -82,11 +113,38 @@ function renderIssues() {
     container.style.display = 'block';
     noResults.style.display = 'none';
     
-    container.innerHTML = filtered.map(issue => createIssueCard(issue)).join('');
+    // Group by repository
+    const grouped = groupIssuesByRepo(filtered);
+    
+    // Render each repository group
+    const html = Object.entries(grouped).map(([repoKey, repo]) => {
+        const openCount = repo.issues.filter(i => i.state === 'open').length;
+        const closedCount = repo.issues.length - openCount;
+        
+        return `
+            <div class="repo-group">
+                <div class="repo-group-header">
+                    <h2 class="repo-group-title">
+                        ${escapeHtml(repoKey)}
+                    </h2>
+                    <div class="repo-stats">
+                        <span class="repo-stat">${repo.issues.length} issues</span>
+                        <span class="repo-stat repo-stat-open">${openCount} open</span>
+                        <span class="repo-stat repo-stat-closed">${closedCount} closed</span>
+                    </div>
+                </div>
+                <div class="repo-issues">
+                    ${repo.issues.map(issue => createIssueItem(issue)).join('')}
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    container.innerHTML = html;
 }
 
-// Create HTML for a single issue card
-function createIssueCard(issue) {
+// Create HTML for a single issue item (GitHub style)
+function createIssueItem(issue) {
     const date = new Date(issue.updated_at).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
@@ -100,33 +158,36 @@ function createIssueCard(issue) {
         : '';
     
     return `
-        <div class="issue-card">
-            <div class="repo-badge">${issue.repo_owner}/${issue.repo_name}</div>
-            <div class="issue-header">
-                <span class="issue-number">#${issue.number}</span>
-                <div class="issue-title">
-                    <a href="${issue.url}" target="_blank" rel="noopener noreferrer">
-                        ${escapeHtml(issue.title)}
-                    </a>
+        <div class="issue-item">
+            <div class="issue-icon state-${issue.state}">
+                ${getIssueIcon(issue.state)}
+            </div>
+            <div class="issue-content">
+                <div class="issue-title-row">
+                    <span class="issue-title">
+                        <a href="${issue.url}" target="_blank" rel="noopener noreferrer">
+                            ${escapeHtml(issue.title)}
+                        </a>
+                    </span>
+                    ${labelsHtml}
                 </div>
-                <span class="state-badge state-${issue.state}">${issue.state}</span>
+                <div class="issue-meta">
+                    <a href="${issue.url}" class="issue-number" target="_blank">#${issue.number}</a>
+                    opened by ${escapeHtml(issue.author)} • Updated ${date}
+                </div>
             </div>
-            <div class="issue-meta">
-                Opened by ${escapeHtml(issue.author)} • Updated ${date}
-            </div>
-            ${labelsHtml}
         </div>
     `;
 }
 
-// Create HTML for a label
+// Create HTML for a label (GitHub style)
 function createLabelHtml(label) {
     const color = label.color || '666666';
     const brightness = getBrightness(color);
     const textColor = brightness > 128 ? '#000' : '#fff';
     
     return `
-        <span class="label" style="background-color: #${color}; color: ${textColor};">
+        <span class="label" style="background-color: #${color}; color: ${textColor}; border-color: #${color};">
             ${escapeHtml(label.name)}
         </span>
     `;
