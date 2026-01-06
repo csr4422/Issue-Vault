@@ -5,239 +5,346 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
     background: #0d1117;
-    color: #c9d1d9;
-    line-height: 1.6;
+    color: #e6edf3;
+    line-height: 1.5;
+    font-size: 14px;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1280px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 32px 24px;
 }
 
 /* Header */
 header {
-    text-align: center;
-    padding: 40px 0;
-    border-bottom: 1px solid #30363d;
-    margin-bottom: 30px;
+    margin-bottom: 24px;
 }
 
 h1 {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
+    font-size: 32px;
     font-weight: 600;
+    margin-bottom: 8px;
+    color: #e6edf3;
 }
 
 .stats {
     display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin: 15px 0;
-    font-size: 0.95rem;
-    color: #8b949e;
+    gap: 16px;
+    font-size: 14px;
+    color: #7d8590;
 }
 
 .stats span {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
 }
 
-/* Search Bar */
+/* Search and Filters */
+.search-filter-container {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    align-items: center;
+}
+
 .search-bar {
-    margin: 30px 0 20px;
+    flex: 1;
 }
 
 #searchInput {
     width: 100%;
-    padding: 12px 20px;
-    font-size: 1rem;
-    background: #161b22;
+    padding: 5px 12px;
+    font-size: 14px;
+    background: #010409;
     border: 1px solid #30363d;
     border-radius: 6px;
-    color: #c9d1d9;
+    color: #e6edf3;
     transition: border-color 0.2s;
 }
 
 #searchInput:focus {
     outline: none;
-    border-color: #58a6ff;
+    border-color: #1f6feb;
 }
 
 #searchInput::placeholder {
-    color: #8b949e;
+    color: #7d8590;
 }
 
-/* Filters */
 .filters {
     display: flex;
-    gap: 10px;
-    margin: 20px 0 30px;
-    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .filter-btn {
-    padding: 8px 16px;
-    background: #21262d;
+    padding: 5px 16px;
+    background: transparent;
     border: 1px solid #30363d;
     border-radius: 6px;
-    color: #c9d1d9;
+    color: #e6edf3;
     cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.2s;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.1s;
     font-family: inherit;
 }
 
 .filter-btn:hover {
-    background: #30363d;
-    border-color: #58a6ff;
+    border-color: #7d8590;
 }
 
 .filter-btn.active {
-    background: #58a6ff;
-    border-color: #58a6ff;
+    background: #1f6feb;
+    border-color: #1f6feb;
     color: #fff;
 }
 
-/* Issue Cards */
-#issuesContainer {
-    margin-bottom: 40px;
+/* Repository Groups */
+.repo-group {
+    margin-bottom: 32px;
 }
 
-.issue-card {
+.repo-group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
     background: #161b22;
     border: 1px solid #30363d;
-    border-radius: 6px;
-    padding: 20px;
-    margin-bottom: 15px;
-    transition: border-color 0.2s;
+    border-radius: 6px 6px 0 0;
+    border-bottom: none;
 }
 
-.issue-card:hover {
-    border-color: #58a6ff;
-}
-
-.repo-badge {
-    display: inline-block;
-    padding: 4px 10px;
-    background: #21262d;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    color: #8b949e;
-    margin-bottom: 12px;
-    font-weight: 500;
-}
-
-.issue-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
-}
-
-.issue-number {
-    color: #8b949e;
+.repo-group-title {
+    font-size: 20px;
     font-weight: 600;
-    font-size: 0.95rem;
-    white-space: nowrap;
+    color: #e6edf3;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.issue-title {
-    flex: 1;
-    min-width: 200px;
-}
-
-.issue-title a {
+.repo-group-title a {
     color: #58a6ff;
     text-decoration: none;
-    font-size: 1.1rem;
-    font-weight: 600;
-    line-height: 1.4;
 }
 
-.issue-title a:hover {
+.repo-group-title a:hover {
     text-decoration: underline;
 }
 
-.state-badge {
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
+.repo-stats {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+    color: #7d8590;
+}
+
+.repo-stat {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.repo-stat-open {
+    color: #3fb950;
+}
+
+.repo-stat-closed {
+    color: #a371f7;
+}
+
+/* Issues List - GitHub Style */
+.repo-issues {
+    border: 1px solid #30363d;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    background: #0d1117;
+}
+
+.issue-item {
+    display: flex;
+    padding: 16px;
+    border-bottom: 1px solid #21262d;
+    background: #0d1117;
+    transition: background-color 0.1s;
+}
+
+.issue-item:hover {
+    background: #161b22;
+}
+
+.issue-item:last-child {
+    border-bottom: none;
+}
+
+/* Issue Icon */
+.issue-icon {
+    flex-shrink: 0;
+    margin-right: 16px;
+    margin-top: 2px;
+}
+
+.issue-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.issue-icon.state-open svg {
+    fill: #3fb950;
+}
+
+.issue-icon.state-closed svg {
+    fill: #a371f7;
+}
+
+/* Issue Content */
+.issue-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.issue-title-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+}
+
+.issue-title {
+    font-size: 16px;
     font-weight: 600;
-    text-transform: uppercase;
-    white-space: nowrap;
+    color: #e6edf3;
+    line-height: 1.5;
 }
 
-.state-open {
-    background: #238636;
-    color: #fff;
+.issue-title a {
+    color: #e6edf3;
+    text-decoration: none;
 }
 
-.state-closed {
-    background: #8957e5;
-    color: #fff;
+.issue-title a:hover {
+    color: #58a6ff;
 }
 
 .issue-meta {
-    color: #8b949e;
-    font-size: 0.85rem;
-    margin: 10px 0;
+    font-size: 12px;
+    color: #7d8590;
+    line-height: 1.5;
 }
 
+.issue-number {
+    color: #7d8590;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.issue-number:hover {
+    color: #58a6ff;
+}
+
+/* Labels - GitHub Style */
 .labels {
-    display: flex;
-    gap: 8px;
+    display: inline-flex;
+    gap: 4px;
     flex-wrap: wrap;
-    margin-top: 12px;
+    margin-top: 6px;
 }
 
 .label {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: inline-flex;
+    padding: 0 7px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    white-space: nowrap;
 }
 
 /* No Results */
 .no-results {
     text-align: center;
-    padding: 60px 20px;
-    color: #8b949e;
-    font-size: 1.1rem;
+    padding: 64px 16px;
+    color: #7d8590;
+    font-size: 14px;
 }
 
 /* Footer */
 footer {
     text-align: center;
     padding: 40px 0 20px;
-    color: #8b949e;
-    border-top: 1px solid #30363d;
-    margin-top: 40px;
-    font-size: 0.9rem;
+    color: #7d8590;
+    border-top: 1px solid #21262d;
+    margin-top: 48px;
+    font-size: 12px;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
+    .container {
+        padding: 16px;
+    }
+
     h1 {
-        font-size: 2rem;
+        font-size: 24px;
     }
 
-    .stats {
+    .search-filter-container {
         flex-direction: column;
-        gap: 10px;
+        align-items: stretch;
     }
 
-    .issue-header {
+    .filters {
+        width: 100%;
+        justify-content: stretch;
+    }
+
+    .filter-btn {
+        flex: 1;
+    }
+
+    .repo-group-header {
         flex-direction: column;
+        align-items: flex-start;
         gap: 8px;
     }
 
-    .issue-title {
+    .repo-stats {
         width: 100%;
     }
+
+    .issue-item {
+        flex-direction: column;
+    }
+
+    .issue-icon {
+        margin-bottom: 8px;
+    }
+}
+
+/* State Counter in Header */
+.state-counter {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    background: #21262d;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.state-counter.open {
+    color: #3fb950;
+}
+
+.state-counter.closed {
+    color: #a371f7;
 }
