@@ -145,7 +145,7 @@ class IssueRenderer:
         issues_json = json.dumps(data['issues'], indent=2, ensure_ascii=False)
         
         # Replace placeholder with actual data
-        html = html.replace('{{ ISSUES_DATA }}', issues_json)
+        html = html.replace('{{ISSUES_DATA}}', issues_json)
         
         # Inline CSS
         html = html.replace(
