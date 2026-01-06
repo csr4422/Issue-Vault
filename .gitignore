@@ -1,7 +1,9 @@
 .issueENV/
 issueENV/
 data/
+output/
 config.toml
 *.db
 __pycache__/
 *.pyc
+.vscode/
