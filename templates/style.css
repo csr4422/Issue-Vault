@@ -348,3 +348,51 @@ footer {
 .state-counter.closed {
     color: #a371f7;
 }
+
+/* Repository Header - Clickable */
+.repo-group-header {
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.1s;
+}
+
+.repo-group-header:hover {
+    background: #1c2128;
+}
+
+.repo-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.chevron-icon {
+    display: flex;
+    align-items: center;
+    color: #7d8590;
+    transition: transform 0.2s ease;
+}
+
+.repo-group.collapsed .chevron-icon {
+    transform: rotate(0deg);
+}
+
+.repo-group:not(.collapsed) .chevron-icon {
+    transform: rotate(0deg);
+}
+
+/* Smooth collapse animation */
+.repo-issues {
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+/* Collapsed state */
+.repo-group.collapsed .repo-issues {
+    display: none;
+}
+
+.repo-group.collapsed .repo-group-header {
+    border-radius: 6px;
+    border-bottom: 1px solid #30363d;
+}

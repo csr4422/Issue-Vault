@@ -1,6 +1,7 @@
 // Global state
 let currentFilter = 'all';
 let searchTerm = '';
+let collapsedRepos = new Set(); // Track collapsed repos
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
@@ -34,6 +35,16 @@ function setupEventListeners() {
             renderIssues();
         });
     });
+}
+
+// Toggle repository collapse
+function toggleRepo(repoKey) {
+    if (collapsedRepos.has(repoKey)) {
+        collapsedRepos.delete(repoKey);
+    } else {
+        collapsedRepos.add(repoKey);
+    }
+    renderIssues();
 }
 
 // Filter issues based on current state
@@ -98,6 +109,21 @@ function getIssueIcon(state) {
     }
 }
 
+// Get chevron icon for collapse state
+function getChevronIcon(isCollapsed) {
+    if (isCollapsed) {
+        // Right chevron (collapsed)
+        return `<svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+            <path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"></path>
+        </svg>`;
+    } else {
+        // Down chevron (expanded)
+        return `<svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+            <path d="M12.78 5.22a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L3.22 6.28a.75.75 0 0 1 1.06-1.06L8 8.94l3.72-3.72a.75.75 0 0 1 1.06 0Z"></path>
+        </svg>`;
+    }
+}
+
 // Render issues to DOM
 function renderIssues() {
     const container = document.getElementById('issuesContainer');
@@ -118,22 +144,28 @@ function renderIssues() {
     
     // Render each repository group
     const html = Object.entries(grouped).map(([repoKey, repo]) => {
+        const isCollapsed = collapsedRepos.has(repoKey);
         const openCount = repo.issues.filter(i => i.state === 'open').length;
         const closedCount = repo.issues.length - openCount;
         
         return `
-            <div class="repo-group">
-                <div class="repo-group-header">
-                    <h2 class="repo-group-title">
-                        ${escapeHtml(repoKey)}
-                    </h2>
+            <div class="repo-group ${isCollapsed ? 'collapsed' : ''}">
+                <div class="repo-group-header" onclick="toggleRepo('${repoKey}')">
+                    <div class="repo-title-row">
+                        <span class="chevron-icon">
+                            ${getChevronIcon(isCollapsed)}
+                        </span>
+                        <h2 class="repo-group-title">
+                            ${escapeHtml(repoKey)}
+                        </h2>
+                    </div>
                     <div class="repo-stats">
                         <span class="repo-stat">${repo.issues.length} issues</span>
                         <span class="repo-stat repo-stat-open">${openCount} open</span>
                         <span class="repo-stat repo-stat-closed">${closedCount} closed</span>
                     </div>
                 </div>
-                <div class="repo-issues">
+                <div class="repo-issues" style="display: ${isCollapsed ? 'none' : 'block'}">
                     ${repo.issues.map(issue => createIssueItem(issue)).join('')}
                 </div>
             </div>
