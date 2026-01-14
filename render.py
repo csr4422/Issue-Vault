@@ -151,7 +151,7 @@ class IssueRenderer:
         html = html.replace(
             '<link rel="stylesheet" href="style.css">',
             f'<style>\n{css}\n</style>'
-        )
+        )       
         
         # Inline JavaScript
         html = html.replace(
