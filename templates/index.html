@@ -4,43 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Issue Vault</title>
+    <title>Issues Archive</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="container">
         <header>
-            <h1> Archived Repos</h1>
-            <div class="stats">
-                <span><span id="repoCount">0</span> Repositories</span>
-                <span><span id="issueCount">0</span> Issues</span>
-            </div>
+            <h1 onclick="navigateTo('/')" style="cursor: pointer;">Issues Archive</h1>
+            <nav id="breadcrumb" class="breadcrumb"></nav>
         </header>
 
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search issues by title, number, or content...">
+        <div id="searchBar" class="search-bar" style="display: none;">
+            <input type="text" id="searchInput" placeholder="Search issues...">
         </div>
 
-        <div class="filters">
+        <div id="filters" class="filters" style="display: none;">
             <button class="filter-btn active" data-filter="all">All</button>
             <button class="filter-btn" data-filter="open">Open</button>
             <button class="filter-btn" data-filter="closed">Closed</button>
         </div>
 
-        <div id="issuesContainer"></div>
-
-        <div id="noResults" class="no-results" style="display: none;">
-            <p>No issues found</p>
-        </div>
+        <div id="appContainer"></div>
 
         <footer>
-            <p>Generated with Issue Vault • <span id="footerCount">0</span> issues archived</p>
+            <p>Generated with Issue Vault</p>
         </footer>
     </div>
 
     <script>
-        // Data injected by renderer
         const issues = {{ISSUES_DATA}};
     </script>
 
