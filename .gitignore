@@ -6,3 +6,4 @@ config.toml
 __pycache__/
 *.pyc
 .vscode/
+output/
