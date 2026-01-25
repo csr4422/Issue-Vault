@@ -578,7 +578,7 @@ footer {
     line-height: 1.6;
     color: #e6edf3;
     white-space: pre-wrap;
-    word-wrap: break-word;
+    word-wrap: pre-line;
 }
 
 .issue-body-content code {
@@ -632,4 +632,18 @@ footer {
     .issue-detail-title .issue-number {
         font-size: 20px;
     }
+}
+
+/* User Avatar */
+.user-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+.issue-detail-info .user-avatar {
+    width: 24px;
+    height: 24px;
 }
