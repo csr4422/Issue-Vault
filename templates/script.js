@@ -233,7 +233,6 @@ function renderIssueView() {
                         ${issue.state}
                     </span>
                    <span class="issue-detail-info">
-                        <img src="${issue.author_avatar}" alt="${escapeHtml(issue.author)}" class="user-avatar">
                         ${escapeHtml(issue.author)} opened this issue on ${formatDate(issue.created_at)} • Updated ${formatDate(issue.updated_at)}
                     </span>
                 </div>
