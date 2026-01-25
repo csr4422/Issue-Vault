@@ -161,29 +161,30 @@ function renderRepoView() {
     }
     
     const html = `
-        <div class="issues-list">
-            ${filtered.map(issue => `
-                <div class="issue-item" onclick="navigateTo('/issue/${currentRepo.owner}/${currentRepo.name}/${issue.number}')">
-                    <div class="issue-icon state-${issue.state}">
-                        ${getIssueIcon(issue.state)}
+    <div class="issues-list">
+        ${filtered.map(issue => `
+            <div class="issue-item" onclick="navigateTo('/issue/${currentRepo.owner}/${currentRepo.name}/${issue.number}')">
+                <div class="issue-icon state-${issue.state}">
+                    ${getIssueIcon(issue.state)}
+                </div>
+                <div class="issue-content">
+                    <div class="issue-title-row">
+                        <span class="issue-title">${escapeHtml(issue.title)}</span>
+                        ${issue.labels && issue.labels.length > 0 ? `
+                            <div class="labels">
+                                ${issue.labels.map(label => createLabelHtml(label)).join('')}
+                            </div>
+                        ` : ''}
                     </div>
-                    <div class="issue-content">
-                        <div class="issue-title-row">
-                            <span class="issue-title">${escapeHtml(issue.title)}</span>
-                            ${issue.labels && issue.labels.length > 0 ? `
-                                <div class="labels">
-                                    ${issue.labels.map(label => createLabelHtml(label)).join('')}
-                                </div>
-                            ` : ''}
-                        </div>
-                        <div class="issue-meta">
-                            #${issue.number} opened by ${escapeHtml(issue.author)} • Updated ${formatDate(issue.updated_at)}
-                        </div>
+                    <div class="issue-meta">
+                        <img src="${issue.author_avatar}" alt="${escapeHtml(issue.author)}" class="user-avatar">
+                        #${issue.number} opened by ${escapeHtml(issue.author)} • Updated ${formatDate(issue.updated_at)}
                     </div>
                 </div>
-            `).join('')}
-        </div>
-    `;
+            </div>
+        `).join('')}
+    </div>
+`;
     
     document.getElementById('appContainer').innerHTML = html;
 }
@@ -231,7 +232,8 @@ function renderIssueView() {
                         ${getIssueIcon(issue.state)}
                         ${issue.state}
                     </span>
-                    <span class="issue-detail-info">
+                   <span class="issue-detail-info">
+                        <img src="${issue.author_avatar}" alt="${escapeHtml(issue.author)}" class="user-avatar">
                         ${escapeHtml(issue.author)} opened this issue on ${formatDate(issue.created_at)} • Updated ${formatDate(issue.updated_at)}
                     </span>
                 </div>
@@ -244,6 +246,7 @@ function renderIssueView() {
             
             <div class="issue-detail-body">
                 <div class="issue-body-header">
+                        <img src="${issue.author_avatar}" alt="${escapeHtml(issue.author)}" class="user-avatar">
                     <strong>${escapeHtml(issue.author)}</strong> commented
                 </div>
                 <div class="issue-body-content">
