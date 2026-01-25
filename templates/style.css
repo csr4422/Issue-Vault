@@ -571,6 +571,23 @@ footer {
     padding: 16px;
     border-bottom: 1px solid #21262d;
     font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* User Avatar */
+.user-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+.issue-body-header .user-avatar {
+    width: 32px;
+    height: 32px;
 }
 
 .issue-body-content {
@@ -632,18 +649,4 @@ footer {
     .issue-detail-title .issue-number {
         font-size: 20px;
     }
-}
-
-/* User Avatar */
-.user-avatar {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    vertical-align: middle;
-    margin-right: 4px;
-}
-
-.issue-detail-info .user-avatar {
-    width: 24px;
-    height: 24px;
 }
