@@ -64,12 +64,13 @@ def sync_repo(config, owner, repo_name, token):
         issue_data = {
             'number': issue['number'],
             'title': issue['title'],
-            'body': issue.get('body', ''),  
+            'body': issue.get('body', ''),
             'state': issue['state'],
             'created_at': issue['created_at'],
             'updated_at': issue['updated_at'],
             'url': issue['html_url'],
-            'author': issue['user']['login']
+            'author': issue['user']['login'],
+            'author_avatar': issue['user']['avatar_url']  
         }
         
         # Insert issue
