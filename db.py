@@ -39,6 +39,7 @@ def init_db(config):
             updated_at TEXT,
             url TEXT,
             author TEXT,
+            author_avatar TEXT,
             FOREIGN KEY (repo_id) REFERENCES repos(id),
             UNIQUE (repo_id, number)
         )
@@ -80,8 +81,8 @@ def insert_issue(conn, repo_id, issue_data):
    
     cursor.execute('''
         INSERT OR REPLACE INTO issues
-        (repo_id, number, title, body, state, created_at, updated_at, url, author)
-        VALUES (?,?,?,?,?,?,?,?,?)
+        (repo_id, number, title, body, state, created_at, updated_at, url, author, author_avatar)
+        VALUES (?,?,?,?,?,?,?,?,?,?)
     ''', (
         repo_id,
         issue_data['number'],
@@ -91,12 +92,13 @@ def insert_issue(conn, repo_id, issue_data):
         issue_data['created_at'],
         issue_data['updated_at'],
         issue_data['url'],
-        issue_data['author']
+        issue_data['author'],
+        issue_data['author_avatar']
     ))
-      
-    issue_id = cursor.lastrowid  
-    conn.commit()                
-    return issue_id              
+    
+    issue_id = cursor.lastrowid
+    conn.commit()
+    return issue_id            
 def insert_labels(conn,issue_id,labels):
     cursor=conn.cursor()\
     # Delete old lables 
