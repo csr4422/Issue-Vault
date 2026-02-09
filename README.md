@@ -314,12 +314,6 @@ flake8 *.py
 
 ---
 
-## License
-
-MIT License - see [LICENSE](LICENSE) file for details.
-
----
-
 ## Disclaimer
 
 This project is independently developed and not affiliated with GitHub, Inc. The UI design is inspired by GitHub's interface for educational purposes only.
@@ -334,11 +328,6 @@ This project is independently developed and not affiliated with GitHub, Inc. The
 
 ---
 
-## Author
-
-**[Your Name](https://github.com/csr4422)**
-
----
 
 ## Support
 
