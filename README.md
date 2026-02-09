@@ -49,28 +49,6 @@ Issue Vault is a Python tool that creates offline archives of GitHub issues. It 
 
 ---
 
-## Screenshots
-
-**Repository List**
-```
-┌─────────────────────────────────────┐
-│ facebook/react        245 issues    │
-│ microsoft/vscode      189 issues    │
-└─────────────────────────────────────┘
-```
-
-**Issue Detail**
-```
-┌─────────────────────────────────────┐
-│ [Bug] App crashes on startup  #123  │
-│ @user opened • Updated Jan 15       │
-│                                     │
-│ Full markdown description with      │
-│ images and code blocks              │
-└─────────────────────────────────────┘
-```
-
----
 
 ## Installation
 
