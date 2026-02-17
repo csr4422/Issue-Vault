@@ -168,6 +168,11 @@ class IssueRenderer:
             -->"""
         html = html.replace('</head>', f'{metadata}\n</head>')
         
+        # After inlining CSS and JS, add marked.js
+        html = html.replace(
+            '<script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.        min.js"></script>',
+            '<script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.        min.js"></script>'
+        )
         # Write output
         output_path = self._write_output(html, output_filename)
         file_size_kb = output_path.stat().st_size / 1024
