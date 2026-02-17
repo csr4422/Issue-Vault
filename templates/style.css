@@ -650,3 +650,33 @@ footer {
         font-size: 20px;
     }
 }
+
+.issue-body-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin: 10px 0;
+}
+
+.issue-body-content pre {
+    background: #161b22;
+    padding: 16px;
+    border-radius: 6px;
+    overflow-x: auto;
+}
+
+.issue-body-content blockquote {
+    border-left: 3px solid #30363d;
+    padding-left: 16px;
+    color: #7d8590;
+    margin: 10px 0;
+}
+
+.issue-body-content a {
+    color: #58a6ff;
+    text-decoration: none;
+}
+
+.issue-body-content a:hover {
+    text-decoration: underline;
+}
