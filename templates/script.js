@@ -321,7 +321,11 @@ function formatDate(dateString) {
 }
 
 function formatBody(body) {
-    // Basic markdown-like formatting
+    if (!body) return 'No description provided.';
+    if (typeof marked !== 'undefined') {
+        return marked.parse(body);
+    }
+    
     return escapeHtml(body)
         .replace(/\n/g, '<br>')
         .replace(/`([^`]+)`/g, '<code>$1</code>');
