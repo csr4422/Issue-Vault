@@ -132,7 +132,8 @@ class IssueRenderer:
             raise RenderError(f"Failed to write output file: {e}")
     
     def generate(self, output_filename: str = "index.html") -> Path:
-     
+        """Read templates, inject data, inline assets, and write the output HTML file."""
+        
         logger.info("Starting HTML generation")
         data = self.get_all_data()
         
@@ -151,9 +152,13 @@ class IssueRenderer:
         html = html.replace(
             '<link rel="stylesheet" href="style.css">',
             f'<style>\n{css}\n</style>'
-        )       
-        
-        # Inline JavaScript
+        )
+
+        # FIX: Inline script.js AFTER marked.js so marked is available in scope.
+        # marked.js must remain as an external <script> tag in index.html — do NOT inline it.
+        # NOTE: issues JSON is already injected via the {{ISSUES_DATA}} placeholder above,
+        # so we must NOT re-declare it here — that would cause a const re-declaration error.
+        # The old no-op replace (replacing marked CDN URL with itself, with broken spaces) has been removed.
         html = html.replace(
             '<script src="script.js"></script>',
             f'<script>\n{js}\n</script>'
@@ -168,11 +173,6 @@ class IssueRenderer:
             -->"""
         html = html.replace('</head>', f'{metadata}\n</head>')
         
-        # After inlining CSS and JS, add marked.js
-        html = html.replace(
-            '<script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.        min.js"></script>',
-            '<script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.        min.js"></script>'
-        )
         # Write output
         output_path = self._write_output(html, output_filename)
         file_size_kb = output_path.stat().st_size / 1024
@@ -182,7 +182,7 @@ class IssueRenderer:
 
 
 def render_from_config(config_path: str = "config.toml", output_filename: str = "index.html") -> Path:
-  
+    """Load config and render the static HTML archive."""
     try:
         from config import load_config, get_db_path
         
