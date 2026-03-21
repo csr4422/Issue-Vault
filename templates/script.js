@@ -320,12 +320,27 @@ function formatDate(dateString) {
     });
 }
 
+// FIX: Properly handle markdown rendering with blank line cleanup
 function formatBody(body) {
     if (!body) return 'No description provided.';
+
     if (typeof marked !== 'undefined') {
-        return marked.parse(body);
+        // Collapse 3+ consecutive newlines into 2 (single blank line)
+        // prevents excessive whitespace gaps in rendered output
+        const cleaned = body.replace(/\n{3,}/g, '\n\n');
+
+        const renderer = new marked.Renderer();
+
+        // Skip rendering empty paragraphs that marked generates from blank lines
+        renderer.paragraph = (text) => {
+            if (!text || text.trim() === '') return '';
+            return `<p>${text}</p>\n`;
+        };
+
+        return marked.parse(cleaned, { renderer });
     }
-    
+
+    // Fallback if marked.js is not available
     return escapeHtml(body)
         .replace(/\n/g, '<br>')
         .replace(/`([^`]+)`/g, '<code>$1</code>');
