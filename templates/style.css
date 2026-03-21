@@ -174,6 +174,7 @@ h1 {
     border-bottom: 1px solid #21262d;
     background: #0d1117;
     transition: background-color 0.1s;
+    cursor: pointer;
 }
 
 .issue-item:hover {
@@ -590,12 +591,40 @@ footer {
     height: 32px;
 }
 
+/* FIX: Removed white-space: pre-wrap (was causing blank lines to render literally)
+   and fixed invalid word-wrap: pre-line → word-wrap: break-word */
 .issue-body-content {
     padding: 16px;
     line-height: 1.6;
     color: #e6edf3;
-    white-space: pre-wrap;
-    word-wrap: pre-line;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* FIX: Controlled paragraph spacing so blank lines don't create huge gaps */
+.issue-body-content p {
+    margin-bottom: 12px;
+}
+
+.issue-body-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* FIX: Safety net — hide any empty <p> tags marked.js sneaks through */
+.issue-body-content p:empty {
+    display: none;
+}
+
+/* FIX: Proper list styling (was masked by pre-wrap before) */
+.issue-body-content ul,
+.issue-body-content ol {
+    padding-left: 24px;
+    margin-bottom: 12px;
+}
+
+.issue-body-content li {
+    margin-bottom: 4px;
 }
 
 .issue-body-content code {
@@ -604,6 +633,85 @@ footer {
     border-radius: 3px;
     font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
     font-size: 85%;
+}
+
+.issue-body-content pre {
+    background: #161b22;
+    padding: 16px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin-bottom: 12px;
+}
+
+.issue-body-content pre code {
+    background: none;
+    padding: 0;
+    font-size: 85%;
+}
+
+.issue-body-content blockquote {
+    border-left: 3px solid #30363d;
+    padding-left: 16px;
+    color: #7d8590;
+    margin: 0 0 12px 0;
+}
+
+.issue-body-content a {
+    color: #58a6ff;
+    text-decoration: none;
+}
+
+.issue-body-content a:hover {
+    text-decoration: underline;
+}
+
+.issue-body-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin: 10px 0;
+}
+
+.issue-body-content h1,
+.issue-body-content h2,
+.issue-body-content h3,
+.issue-body-content h4,
+.issue-body-content h5,
+.issue-body-content h6 {
+    color: #e6edf3;
+    margin-bottom: 8px;
+    margin-top: 16px;
+    font-weight: 600;
+}
+
+.issue-body-content h1:first-child,
+.issue-body-content h2:first-child,
+.issue-body-content h3:first-child {
+    margin-top: 0;
+}
+
+.issue-body-content hr {
+    border: none;
+    border-top: 1px solid #30363d;
+    margin: 16px 0;
+}
+
+.issue-body-content table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.issue-body-content th,
+.issue-body-content td {
+    border: 1px solid #30363d;
+    padding: 6px 12px;
+    text-align: left;
+}
+
+.issue-body-content th {
+    background: #161b22;
+    font-weight: 600;
 }
 
 .issue-actions {
@@ -649,34 +757,4 @@ footer {
     .issue-detail-title .issue-number {
         font-size: 20px;
     }
-}
-
-.issue-body-content img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 6px;
-    margin: 10px 0;
-}
-
-.issue-body-content pre {
-    background: #161b22;
-    padding: 16px;
-    border-radius: 6px;
-    overflow-x: auto;
-}
-
-.issue-body-content blockquote {
-    border-left: 3px solid #30363d;
-    padding-left: 16px;
-    color: #7d8590;
-    margin: 10px 0;
-}
-
-.issue-body-content a {
-    color: #58a6ff;
-    text-decoration: none;
-}
-
-.issue-body-content a:hover {
-    text-decoration: underline;
 }
