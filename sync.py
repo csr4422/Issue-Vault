@@ -1,6 +1,6 @@
 import requests
 from config import load_config, get_repos, get_github_token
-from db import get_connection, insert_repo, insert_issue, insert_labels, init_db
+from db import get_connection, insert_repo, insert_issue, insert_labels, init_db, insert_comment
 def fetch_issues(owner, repo, token):
 
     url = f"https://api.github.com/repos/{owner}/{repo}/issues"
