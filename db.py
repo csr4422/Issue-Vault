@@ -127,3 +127,19 @@ def insert_labels(conn,issue_id,labels):
         ''',(issue_id, label['name'],label.get('color','')))
 
     conn.commit()
+def insert_comment(conn, issue_id, comment_data):
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT OR REPLACE INTO comments
+        (issue_id, github_comment_id, author, author_avatar, body, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ''', (
+        issue_id,
+        comment_data['github_comment_id'],
+        comment_data['author'],
+        comment_data['author_avatar'],
+        comment_data['body'],
+        comment_data['created_at'],
+        comment_data['updated_at']
+    ))
+    conn.commit()
