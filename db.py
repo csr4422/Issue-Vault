@@ -55,6 +55,21 @@ def init_db(config):
             FOREIGN KEY (issue_id) REFERENCES issues(id)
         )
     ''')
+    # Comments table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS comments (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            issue_id INTEGER NOT NULL,
+            github_comment_id INTEGER NOT NULL,
+            author TEXT,
+            author_avatar TEXT,
+            body TEXT,
+            created_at TEXT,
+            updated_at TEXT,
+            FOREIGN KEY (issue_id) REFERENCES issues(id),
+            UNIQUE (issue_id, github_comment_id)
+        )
+    ''')
 
     conn.commit()
     conn.close()
