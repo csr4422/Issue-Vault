@@ -39,6 +39,36 @@ def fetch_issues(owner, repo, token):
     
     return all_issues
 
+def fetch_comments(owner, repo, issue_number, token):
+    url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/comments"
+    
+    headers = {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    
+    params = {"per_page": 100}
+    all_comments = []
+    page = 1
+    
+    while True:
+        params["page"] = page
+        response = requests.get(url, headers=headers, params=params)
+        
+        if response.status_code != 200:
+            print(f"Error fetching comments: {response.status_code}")
+            break
+        
+        comments = response.json()
+        
+        if not comments:
+            break
+        
+        all_comments.extend(comments)
+        page += 1
+    
+    return all_comments
+
 def sync_repo(config, owner, repo_name, token):
 
     print(f"\nSyncing {owner}/{repo_name}...")
@@ -81,7 +111,6 @@ def sync_repo(config, owner, repo_name, token):
             {'name': label['name'], 'color': label['color']}
             for label in issue.get('labels', [])
         ]
-        
         if labels:
             insert_labels(conn, issue_id, labels)
     
