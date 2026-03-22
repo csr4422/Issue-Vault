@@ -113,7 +113,20 @@ def sync_repo(config, owner, repo_name, token):
         ]
         if labels:
             insert_labels(conn, issue_id, labels)
-    
+
+        # Fetch and insert comments
+        comments = fetch_comments(owner, repo_name, issue['number'], token)
+        for comment in comments:
+            comment_data = {
+                'github_comment_id': comment['id'],
+                'author': comment['user']['login'],
+                'author_avatar': comment['user']['avatar_url'],
+                'body': comment.get('body', ''),
+                'created_at': comment['created_at'],
+                'updated_at': comment['updated_at']
+            }
+            insert_comment(conn, issue_id, comment_data)
+            
     conn.close()
     print(f"Saved {len(issues)} issues to database")
 
