@@ -84,7 +84,7 @@ class IssueRenderer:
             for issue in issues:
                 issue['labels'] = labels_by_issue.get(issue['id'], [])
             
-            conn.close()
+            
 
             # Get all comments
             cursor.execute('''
@@ -109,7 +109,8 @@ class IssueRenderer:
                     'created_at': row_dict['created_at'],
                     'updated_at': row_dict['updated_at']
                 })
-
+            conn.close()
+            
             # Attach comments to issues
             for issue in issues:
                issue['comments'] = comments_by_issue.get(issue['id'], [])       
