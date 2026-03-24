@@ -80,7 +80,7 @@ def insert_repo(conn,owner,name):
     # Insert repo 
     cursor.execute('''
         INSERT OR IGNORE INTO repos (owner,name)
-        VAlUES (?,?)
+        VALUES (?,?)
     ''',(owner,name))
     # Get the repo ID
     cursor.execute('''

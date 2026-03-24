@@ -85,6 +85,34 @@ class IssueRenderer:
                 issue['labels'] = labels_by_issue.get(issue['id'], [])
             
             conn.close()
+
+            # Get all comments
+            cursor.execute('''
+                SELECT issue_id, github_comment_id, author, author_avatar, body, created_at, updated_at
+                FROM comments
+               ORDER BY issue_id, created_at ASC
+            ''')
+            comments_rows = cursor.fetchall()
+            
+            # Group comments by issue_id
+            comments_by_issue = {}
+            for row in comments_rows:
+                row_dict = dict(row)
+                issue_id = row_dict['issue_id']
+                if issue_id not in comments_by_issue:
+                    comments_by_issue[issue_id] = []
+                comments_by_issue[issue_id].append({
+                   'github_comment_id': row_dict['github_comment_id'],
+                    'author': row_dict['author'],
+                    'author_avatar': row_dict['author_avatar'],
+                    'body': row_dict['body'],
+                    'created_at': row_dict['created_at'],
+                    'updated_at': row_dict['updated_at']
+                })
+
+            # Attach comments to issues
+            for issue in issues:
+               issue['comments'] = comments_by_issue.get(issue['id'], [])       
             
             # Calculate statistics
             open_count = sum(1 for i in issues if i['state'] == 'open')
@@ -148,17 +176,11 @@ class IssueRenderer:
         # Replace placeholder with actual data
         html = html.replace('{{ISSUES_DATA}}', issues_json)
         
-        # Inline CSS
         html = html.replace(
             '<link rel="stylesheet" href="style.css">',
             f'<style>\n{css}\n</style>'
         )
 
-        # FIX: Inline script.js AFTER marked.js so marked is available in scope.
-        # marked.js must remain as an external <script> tag in index.html — do NOT inline it.
-        # NOTE: issues JSON is already injected via the {{ISSUES_DATA}} placeholder above,
-        # so we must NOT re-declare it here — that would cause a const re-declaration error.
-        # The old no-op replace (replacing marked CDN URL with itself, with broken spaces) has been removed.
         html = html.replace(
             '<script src="script.js"></script>',
             f'<script>\n{js}\n</script>'
