@@ -252,7 +252,6 @@ function renderIssueView() {
                     ${formatBody(issue.body || 'No description provided.')}
                 </div>
             </div>
-            
             <div class="issue-actions">
                 <a href="${issue.url}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
                     View on GitHub
@@ -267,6 +266,22 @@ function renderIssueView() {
     document.getElementById('appContainer').innerHTML = html;
 }
 
+function renderComments(comments) {
+    if (!comments || comments.length === 0) return '';
+
+    return comments.map(comment => `
+        <div class="issue-detail-body">
+            <div class="issue-body-header">
+                <img src="${comment.author_avatar}" alt="${escapeHtml(comment.author)}" class="user-avatar">
+                <strong>${escapeHtml(comment.author)}</strong> commented
+                <span class="comment-date">• ${formatDate(comment.created_at)}</span>
+            </div>
+            <div class="issue-body-content">
+                ${formatBody(comment.body || '')}
+            </div>
+        </div>
+    `).join('');
+}
 // Utility Functions
 function groupIssuesByRepo(issuesList) {
     const grouped = {};
