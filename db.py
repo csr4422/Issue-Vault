@@ -55,6 +55,21 @@ def init_db(config):
             FOREIGN KEY (issue_id) REFERENCES issues(id)
         )
     ''')
+    # Comments table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS comments (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            issue_id INTEGER NOT NULL,
+            github_comment_id INTEGER NOT NULL,
+            author TEXT,
+            author_avatar TEXT,
+            body TEXT,
+            created_at TEXT,
+            updated_at TEXT,
+            FOREIGN KEY (issue_id) REFERENCES issues(id),
+            UNIQUE (issue_id, github_comment_id)
+        )
+    ''')
 
     conn.commit()
     conn.close()
@@ -65,7 +80,7 @@ def insert_repo(conn,owner,name):
     # Insert repo 
     cursor.execute('''
         INSERT OR IGNORE INTO repos (owner,name)
-        VAlUES (?,?)
+        VALUES (?,?)
     ''',(owner,name))
     # Get the repo ID
     cursor.execute('''
@@ -111,4 +126,20 @@ def insert_labels(conn,issue_id,labels):
         VALUES (?,?,?)
         ''',(issue_id, label['name'],label.get('color','')))
 
+    conn.commit()
+def insert_comment(conn, issue_id, comment_data):
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT OR REPLACE INTO comments
+        (issue_id, github_comment_id, author, author_avatar, body, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ''', (
+        issue_id,
+        comment_data['github_comment_id'],
+        comment_data['author'],
+        comment_data['author_avatar'],
+        comment_data['body'],
+        comment_data['created_at'],
+        comment_data['updated_at']
+    ))
     conn.commit()
