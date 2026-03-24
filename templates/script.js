@@ -252,6 +252,7 @@ function renderIssueView() {
                     ${formatBody(issue.body || 'No description provided.')}
                 </div>
             </div>
+            ${renderComments(issue.comments)}
             <div class="issue-actions">
                 <a href="${issue.url}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
                     View on GitHub
